@@ -8,7 +8,7 @@ export default function BlogCard({ blogs }: { blogs: Blog[] }) {
       {blogs.map((blog) => (
         <li key={blog.blogId} className="w-full">
           <Link
-            href={`/blog/${blog.blogId}`}
+            href={`/blog/en/${blog.blogId}`}
             className="relative flex bg-gray-200 w-full transition-all group hover:shadow-[4px_4px_4px_0px_rgba(0,_0,_0,_0.2)]"
             scroll={false}
           >

@@ -1,6 +1,10 @@
 import { generateFieldQueryStr } from "@/utils/generateFieldQueryStr";
 
-export async function getBlogById(id: string) {
+export async function getBlogById(
+  id: string,
+  locale: string,
+  isEnabled: boolean,
+) {
   const filters = `filters[blogId][$eq]=${id}`;
   const fields = generateFieldQueryStr([
     "documentId",
@@ -13,14 +17,14 @@ export async function getBlogById(id: string) {
     "show",
     "date",
     "viewTimes",
-    "updatedAt"
+    "updatedAt",
   ]);
   const populates =
     "populate[Thumbnail][fields]=*&populate[contentArea][populate]=*";
-  const res = await fetch(
-    `${process.env.STRAPI_BASE_URL}/api/blogs?${filters}&${fields}&${populates}`,
-  );
+  const isDraft = isEnabled ? "status=draft" : "status=published";
+  const url = `${process.env.STRAPI_BASE_URL}/api/blogs?${filters}&${fields}&${populates}&${isDraft}&locale=${locale}`;
+  const res = await fetch(url);
   const data = await res.json();
-  console.log("res: ", data);
-  return data.data ? (data.data[0] as Blog) : null;
+  console.log(`${url} -> res: `, data);
+  return data.data && data.data.length === 1 ? (data.data[0] as Blog) : null;
 }

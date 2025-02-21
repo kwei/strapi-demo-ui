@@ -31,6 +31,7 @@ async function getBlogs() {
   return data.data as Blog[];
 }
 
+// https://nextjs.org/docs/app/api-reference/functions/generate-static-params
 // Return a list of `params` to populate the [id] dynamic segment
 export async function generateStaticParams() {
   const blogs = await getBlogs();
